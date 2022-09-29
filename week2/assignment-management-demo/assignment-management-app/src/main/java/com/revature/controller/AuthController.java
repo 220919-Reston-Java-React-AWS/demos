@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import com.revature.exception.InvalidLoginException;
 import com.revature.model.User;
 import com.revature.service.AuthService;
 import io.javalin.Javalin;
@@ -19,29 +20,34 @@ public class AuthController {
 //            private String firstName; -> null
 //            private String lastName; -> null
 //            private int role_id; -> 0
-            User user = authService.login(credentials.getUsername(), credentials.getPassword());
+            try {
+                User user = authService.login(credentials.getUsername(), credentials.getPassword());
 
-            HttpSession session = ctx.req.getSession(); // get the HttpSession (there is a cookie that is utilized by the client to identify the HttpSession object
-            // associated with the client
-            session.setAttribute("user", user); // Store the user object into an HttpSession object
-        });
-
-        app.get("/currentuser", (ctx) -> {
-            HttpSession session = ctx.req.getSession();
-
-            User user = (User) session.getAttribute("user");
-
-            if (user != null) {
-                ctx.json(user);
-            } else {
-                ctx.result("User is not logged in!");
-                ctx.status(400);
+                HttpSession session = ctx.req.getSession(); // get the HttpSession (there is a cookie that is utilized by the client to identify the HttpSession object
+                // associated with the client
+                session.setAttribute("user", user); // Store the user object into an HttpSession object
+            } catch (InvalidLoginException e) {
+                ctx.status(400); // 400 Bad Request
+                ctx.result(e.getMessage());
             }
         });
 
         app.post("/logout", (ctx) -> {
-           ctx.req.getSession().invalidate(); // Invalidate an active HttpSession
+            ctx.req.getSession().invalidate(); // Invalidate an active HttpSession
         });
+
+//        app.get("/currentuser", (ctx) -> {
+//            HttpSession session = ctx.req.getSession();
+//
+//            User user = (User) session.getAttribute("user");
+//
+//            if (user != null) {
+//                ctx.json(user);
+//            } else {
+//                ctx.result("User is not logged in!");
+//                ctx.status(400);
+//            }
+//        });
     }
 
 }

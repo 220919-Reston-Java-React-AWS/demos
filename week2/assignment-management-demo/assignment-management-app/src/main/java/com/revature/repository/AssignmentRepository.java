@@ -67,7 +67,7 @@ public class AssignmentRepository {
         }
     }
 
-    public void gradeAssignment(int assignmentId, int grade, int graderId) throws SQLException {
+    public boolean gradeAssignment(int assignmentId, int grade, int graderId) throws SQLException {
         try (Connection connectionObj = ConnectionFactory.createConnection()) {
             String sql = "UPDATE assignments SET grade = ?, grader_id = ? WHERE id = ?";
 
@@ -77,6 +77,35 @@ public class AssignmentRepository {
             pstmt.setInt(3, assignmentId);
 
             int numberOfRecordsUpdated = pstmt.executeUpdate();
+
+            return numberOfRecordsUpdated == 1;
+        }
+    }
+
+    // Returns either
+    // 1. An assignment object
+    // 2. null
+    public Assignment getAssignmentById(int id) throws SQLException {
+        try (Connection connectionObj = ConnectionFactory.createConnection()) {
+            String sql = "SELECT * FROM assignments WHERE id = ?";
+
+            PreparedStatement pstmt = connectionObj.prepareStatement(sql);
+
+            pstmt.setInt(1, id);
+
+            ResultSet rs = pstmt.executeQuery(); // 0 rows or 1 row
+
+            if (rs.next()) {
+                int assignmentId = rs.getInt("id");
+                String assignmentName = rs.getString("assignment_name");
+                int grade = rs.getInt("grade");
+                int studentId = rs.getInt("student_id");
+                int graderId = rs.getInt("grader_id");
+
+                return new Assignment(assignmentId, assignmentName, grade, studentId, graderId);
+            } else {
+                return null;
+            }
         }
     }
 }
