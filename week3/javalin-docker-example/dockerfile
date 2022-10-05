@@ -1,0 +1,23 @@
+FROM maven:latest AS build
+
+COPY pom.xml /app/
+COPY src /app/src
+
+WORKDIR /app
+
+RUN mvn package
+
+# FROM is used to specify a base image on which we are building a new image
+FROM openjdk:latest
+
+# COPY is used to copy files from our computer into the image
+COPY --from=build /app/target/javalin-docker-example-1.0-SNAPSHOT-jar-with-dependencies.jar /usr/src/myapp/
+
+# It's similar to the cd command in that it switches which directly we are executing commands from
+WORKDIR /usr/src/myapp
+
+# Optional, just used to indicate that the application is using port 80
+# Doesn't actually do anything other than documenting
+EXPOSE 80
+
+ENTRYPOINT ["java", "-jar", "javalin-docker-example-1.0-SNAPSHOT-jar-with-dependencies.jar"]
