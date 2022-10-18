@@ -8,6 +8,8 @@ public class HelloWorldController {
         app.get("/hello", (ctx) -> {
            ctx.result("Hello world!");
         });
+
+        
     }
 
 }

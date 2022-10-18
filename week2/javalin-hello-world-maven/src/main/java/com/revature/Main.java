@@ -6,12 +6,14 @@ import io.javalin.Javalin;
 public class Main {
 
     public static void main(String[] args) {
-        Javalin app = Javalin.create();
+        Javalin app = Javalin.create(config -> {
+            config.enableCorsForAllOrigins();
+        });
 
         HelloWorldController hwc = new HelloWorldController();
         hwc.mapEndpoints(app);
 
-        app.start(8080);
+        app.start(5500);
     }
 
 }
