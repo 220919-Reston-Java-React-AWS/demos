@@ -16,7 +16,7 @@ function getPokemon() {
        .then(result => {
             if(result.status == 404){
                 throw new Error("Pokemon not found")
-            }else if(result.status = 500) {
+            }else if(result.status == 500) {
                 throw new Error("Please wait a moment. Server is in maintence")
             }else {
                 return result.json();
