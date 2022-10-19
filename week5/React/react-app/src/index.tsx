@@ -3,11 +3,67 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import FunctionalComponent from './components/FunctionalComponent';
+import ClassComponent from './components/ClassComponent';
+import PokemonBox, { IPokemon } from './components/PokemonBox/PokemonBox';
+import Counter from './components/Counter/Counter';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+/*
+  Index.tsx is your entry point of your components
+  Anything in here is what will be displayed in your website
+
+  Since React is SPA, this is going to the main HTML page (index.html) that will be serve first
+*/
+
+//You can see how React will select the div element from the index.html and from there will dynamically add in components
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+let pokemon:IPokemon = {
+  damage: 10,
+  health: 200,
+  img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+  level: 2,
+  name: 'Charmander'
+}
+
+let listOfPokemon:IPokemon[] = [
+  {
+    damage:30,
+    health: 10,
+    img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png',
+    level: 20,
+    name: "Jigglypuff"
+  },
+  {
+    damage: 50, 
+    health: 1,
+    img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png',
+    level: 10,
+    name:'Mew'
+  }
+]
+
 root.render(
   <React.StrictMode>
+    <Counter />
     <App />
+    {/* <FunctionalComponent />
+    <ClassComponent /> */}
+    <PokemonBox name="Pikachu" damage={10} health={100} img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" level={1}/>
+    <PokemonBox {...pokemon}/>
+    
+    {
+      /*
+        map method will change each element from this array into 
+        <PokemonBox />
+      */
+      listOfPokemon.map((pokemon) => {
+        return <PokemonBox {...pokemon} />
+      })
+    }
+
   </React.StrictMode>
 );
 
