@@ -1,5 +1,8 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import PokemonBox, { IPokemon } from '../PokemonBox/PokemonBox';
+import { IPokemon } from '../models/Pokemon';
+import { IPokemonApi } from '../models/PokemonApi';
+import PokemonBox from '../PokemonBox/PokemonBox';
 import './PokemonList.css';
 
 function PokemonList() {
@@ -73,6 +76,38 @@ function PokemonList() {
         setListPoke([newPokemon, ...listOfPoke]);
     }
 
+    function setNameP(event: React.ChangeEvent<HTMLInputElement>) {
+        newPokemon.name = event.target.value;
+    }
+
+    function onSubmitP(event: React.FormEvent<HTMLFormElement>){
+        event.preventDefault();
+
+        //Axios to grab information from the pokeAPI and storing it
+        //Axios has the capability to map things for you if you models/interface
+        axios.get<IPokemonApi>(`https://pokeapi.co/api/v2/pokemon/${newPokemon.name}`)
+            .then(response => {
+                console.log(response.data);
+
+                //Converting PokemonAPI into Pokemon
+                let poke:IPokemon = {
+                    damage:response.data.stats[1].base_stat,
+                    health:response.data.stats[0].base_stat,
+                    img:response.data.sprites.front_default,
+                    level:10,
+                    name:response.data.name
+                }
+
+                console.log(poke);
+
+                //Adding Pokemon to our list
+                setListPoke([poke, ...listOfPoke]);
+
+            })
+        
+        
+    }
+
     return <div>
         <h3>Add Pokemon</h3>
         <form className="grid" onSubmit={onSubmit}>
@@ -88,6 +123,14 @@ function PokemonList() {
             <input type="text" onChange={setImage}></input>
             <br/>
             <input type="submit" value="Add Pokemon"/>
+        </form>
+
+        <h3>Add Pokemon via PokeAPI</h3>
+        <form className="grid" onSubmit={onSubmitP}>
+            <label>Name</label>
+            <input type="text" onChange={setNameP}></input>
+            <br/>
+            <input type="submit"></input>
         </form>
         
         <h2>Pokemon List</h2>

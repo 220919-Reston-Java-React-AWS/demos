@@ -1,3 +1,4 @@
+import { IPokemon } from "../models/Pokemon";
 import "./PokemonBox.css";
 /*
     Will display pokemon information in Box UI
@@ -7,14 +8,6 @@ import "./PokemonBox.css";
 
     Instead why not make our data dynamic?
 */
-
-export interface IPokemon {
-    name:string,
-    level:number,
-    health:number,
-    damage:number,
-    img: string
-}
 
 function PokemonBox(props:IPokemon) {
     return <div className="box">

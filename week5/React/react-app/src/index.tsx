@@ -5,9 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import FunctionalComponent from './components/FunctionalComponent';
 import ClassComponent from './components/ClassComponent';
-import PokemonBox, { IPokemon } from './components/PokemonBox/PokemonBox';
+import PokemonBox from './components/PokemonBox/PokemonBox';
 import Counter from './components/Counter/Counter';
 import PokemonList from './components/PokemonList/PokemonList';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import NavBar from './components/NavBar/NavBar';
+import { IPokemon } from './components/models/Pokemon';
 
 /*
   Index.tsx is your entry point of your components
@@ -48,6 +51,9 @@ let listOfPokemon:IPokemon[] = [
 
 root.render(
   <React.StrictMode>
+    {/* BrowserRouter starts the routing */}
+    <BrowserRouter>
+
     {/* <Counter />
     <App />
     {/* <FunctionalComponent />
@@ -70,8 +76,20 @@ root.render(
       })
     */}
 
-    <PokemonList />
+    {/*<PokemonList /> */}
 
+    {/* If you want a shared component to persists throughout your website, put it outside of routes component */}
+    <NavBar />
+    {/* This is all the different routes this app will have */}
+    <Routes>
+
+      {/* Individual route within this React App */}
+      <Route path="/" element={<App />}/>
+      <Route path="/pokeList" element={<PokemonList />}/>
+    </Routes>
+
+
+    </BrowserRouter>
   </React.StrictMode>
 );
 
