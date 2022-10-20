@@ -10,16 +10,44 @@ function Counter() {
         useState(parameter) the parameter will set the default value of the state
         - It gives you the state and a function to change the value of the state (because of its weird immutable property)
     */
-    let [currentCount, setCount] = useState(1);
+    const [currentCount, setCount] = useState(1);
+    const [show, setShow] = useState(false);
+    
 
     function increment() {
+        // currentCount +=1; States are immutable! You must use the provided function given by useState()
         setCount(currentCount + 1)
         console.log(currentCount);
     }
 
+    function flip() {
+        console.log("Showing the counter");
+        setShow(!show);
+    }
+
+    //Conditional Rendering - show a component/JSX based on a condition (basically use if statement like how you've doing it)
+    // if(show) {
+    //     return <div>
+    //         <button onClick={flip}>Click me to hide</button>
+    //         <p>{currentCount}</p>
+    //         <button onClick={increment}>Click me</button>
+    //     </div>
+    // }else {
+    //     return <div>
+    //         <button onClick={flip}>Click me to show</button>
+    //     </div>
+    // }
+
     return <div>
-        <p>{currentCount}</p>
-        <button onClick={increment}>Click me</button>
+        <button onClick={flip}>Click me to {show ? "hide":"show"}</button>
+
+        {/* Inline conditional rendering w/ && Operator to render certain things */}
+        {
+            show && <div>
+                <p>{currentCount}</p>
+                <button onClick={increment}>Click me</button>
+            </div>
+        }
     </div>
 }
 

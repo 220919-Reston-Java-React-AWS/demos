@@ -7,6 +7,7 @@ import FunctionalComponent from './components/FunctionalComponent';
 import ClassComponent from './components/ClassComponent';
 import PokemonBox, { IPokemon } from './components/PokemonBox/PokemonBox';
 import Counter from './components/Counter/Counter';
+import PokemonList from './components/PokemonList/PokemonList';
 
 /*
   Index.tsx is your entry point of your components
@@ -47,22 +48,29 @@ let listOfPokemon:IPokemon[] = [
 
 root.render(
   <React.StrictMode>
-    <Counter />
+    {/* <Counter />
     <App />
     {/* <FunctionalComponent />
-    <ClassComponent /> */}
+    <ClassComponent /> 
     <PokemonBox name="Pikachu" damage={10} health={100} img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" level={1}/>
     <PokemonBox {...pokemon}/>
-    
+     *}
+
     {
       /*
         map method will change each element from this array into 
         <PokemonBox />
-      */
+
+        key attribute in React will give the component/jsx element a uniquely identified way to select it
+        This is extremly for lists because React has a hard time dynamically changing information within a list
+        They highly recommend you use key attribute and give each component/jsx element an id
+      
       listOfPokemon.map((pokemon) => {
-        return <PokemonBox {...pokemon} />
+        return <PokemonBox key={pokemon.name} {...pokemon} />
       })
-    }
+    */}
+
+    <PokemonList />
 
   </React.StrictMode>
 );
