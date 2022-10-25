@@ -1,11 +1,15 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAppSelector } from '../../shared/hooks';
+import { selectTrainer } from '../Login/TrainerSlicer';
 import { IPokemon } from '../models/Pokemon';
 import { IPokemonApi } from '../models/PokemonApi';
 import PokemonBox from '../PokemonBox/PokemonBox';
 import './PokemonList.css';
 
 function PokemonList() {
+
+    const trainer = useAppSelector(selectTrainer);
 
     let newPokemon:IPokemon = {
         damage: 0,
@@ -15,36 +19,22 @@ function PokemonList() {
         name: ""
     }
 
-    const [listOfPoke, setListPoke] = useState<IPokemon[]>([
-        {
-            damage: 30,
-            health: 10,
-            img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png',
-            level: 20,
-            name: "Jigglypuff"
-        },
-        {
-            damage: 50,
-            health: 1,
-            img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png',
-            level: 10,
-            name: 'Mew'
-        },
-        {
-            damage: 10,
-            health: 200,
-            img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-            level: 2,
-            name: 'Charmander'
-        },
-        {
-            damage: 100,
-            health: 1000,
-            img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png",
-            level: 100,
-            name: 'Snorlax'
-        }
-    ])
+    //We have lifted the state by putting it on the parent component
+    const [count, setCount] = useState(0);
+
+    const [listOfPoke, setListPoke] = useState<IPokemon[]>(trainer.listOfPokemon);
+
+    
+    /*
+        useEffect is a hook that will execute the behavior if one of the event happens:
+            - initial rendering of the component
+            - after the rendering of the component
+            - a change in the primitive datatype of a state
+        BE CAREFUL, useEffect can cause an infinite loop if the behavior of your useEffect also changes the value of a primitive type state
+    */
+    useEffect(() => {
+        setListPoke(trainer.listOfPokemon);
+    });
 
     function setName(event: React.ChangeEvent<HTMLInputElement>) {
         newPokemon.name = event.target.value;
@@ -108,6 +98,12 @@ function PokemonList() {
         
     }
 
+    function handleOnClickEvent(infoFromChild:string) {
+        setCount(count+1);
+
+        console.log(infoFromChild);
+    }
+
     return <div>
         <h3>Add Pokemon</h3>
         <form className="grid" onSubmit={onSubmit}>
@@ -137,7 +133,9 @@ function PokemonList() {
         <div className="grid-pokemon">
             {
                 listOfPoke.map(poke => {
-                    return <PokemonBox key={poke.name} {...poke}/>
+
+                    // We pass the function from the parent to the child component as a callback function
+                    return <PokemonBox key={poke.name} {...poke} count={count} onButtonClick={handleOnClickEvent}/>
                 })
             }
         </div>

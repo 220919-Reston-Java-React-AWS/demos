@@ -11,6 +11,9 @@ import PokemonList from './components/PokemonList/PokemonList';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import { IPokemon } from './components/models/Pokemon';
+import Login from './components/Login/Login';
+import { Provider } from 'react-redux';
+import { store } from './shared/store';
 
 /*
   Index.tsx is your entry point of your components
@@ -51,45 +54,48 @@ let listOfPokemon:IPokemon[] = [
 
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     {/* BrowserRouter starts the routing */}
-    <BrowserRouter>
+      <BrowserRouter>
 
-    {/* <Counter />
-    <App />
-    {/* <FunctionalComponent />
-    <ClassComponent /> 
-    <PokemonBox name="Pikachu" damage={10} health={100} img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" level={1}/>
-    <PokemonBox {...pokemon}/>
-     *}
+      {/* <Counter />
+      <App />
+      {/* <FunctionalComponent />
+      <ClassComponent /> 
+      <PokemonBox name="Pikachu" damage={10} health={100} img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" level={1}/>
+      <PokemonBox {...pokemon}/>
+      *}
 
-    {
-      /*
-        map method will change each element from this array into 
-        <PokemonBox />
+      {
+        /*
+          map method will change each element from this array into 
+          <PokemonBox />
 
-        key attribute in React will give the component/jsx element a uniquely identified way to select it
-        This is extremly for lists because React has a hard time dynamically changing information within a list
-        They highly recommend you use key attribute and give each component/jsx element an id
-      
-      listOfPokemon.map((pokemon) => {
-        return <PokemonBox key={pokemon.name} {...pokemon} />
-      })
-    */}
+          key attribute in React will give the component/jsx element a uniquely identified way to select it
+          This is extremly for lists because React has a hard time dynamically changing information within a list
+          They highly recommend you use key attribute and give each component/jsx element an id
+        
+        listOfPokemon.map((pokemon) => {
+          return <PokemonBox key={pokemon.name} {...pokemon} />
+        })
+      */}
 
-    {/*<PokemonList /> */}
+      {/*<PokemonList /> */}
 
-    {/* If you want a shared component to persists throughout your website, put it outside of routes component */}
-    <NavBar />
-    {/* This is all the different routes this app will have */}
-    <Routes>
+      {/* If you want a shared component to persists throughout your website, put it outside of routes component */}
+      <NavBar />
+      {/* This is all the different routes this app will have */}
+      <Routes>
 
-      {/* Individual route within this React App */}
-      <Route path="/" element={<App />}/>
-      <Route path="/pokeList" element={<PokemonList />}/>
-    </Routes>
+        {/* Individual route within this React App */}
+        <Route path="/" element={<App />}/>
+        <Route path="/pokeList" element={<PokemonList />}/>
+        <Route path="/login" element={<Login />}></Route>
+      </Routes>
 
 
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 
