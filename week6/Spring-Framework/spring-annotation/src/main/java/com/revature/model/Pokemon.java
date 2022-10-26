@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value ="pokemon")
 @Scope("prototype") //Change the bean scope to prototype
 public class Pokemon {
 

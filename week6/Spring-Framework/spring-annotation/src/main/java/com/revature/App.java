@@ -22,7 +22,7 @@ public class App
             //Just like the previous container, you can grab beans via getBean method
             PokemonService pokeService = container.getBean(PokemonService.class);
 
-            Pokemon poke1 = container.getBean(Pokemon.class);
+            Pokemon poke1 = container.getBean("pokemon",Pokemon.class); //A more specific way to what bean to really supply (super useful if you get into Variance)
             Pokemon poke2 = container.getBean(Pokemon.class);
             Pokemon poke3 = container.getBean(Pokemon.class);
 
