@@ -1,0 +1,21 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://salt.db.elephantsql.com:5432/xlrupwdj
+        username: xlrupwdj
+        password: b1kw3dR2IDMFqLVWOB0ybj_m0qi6kRoF
+        driverClassName: org.postgresql.Driver
+    jpa:
+        hibernate:
+            # ddl-auto will configure the initialization step of Hibernate
+            # Mostly, it will tell hibernate if you want to re-create the database, or just update database, or do nothing
+            ddl-auto: none # create-drop, create, validate, and update
+        show-sql: true
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+    port: 5000
+springdoc:
+    swagger-ui:
+        path: /swagger
